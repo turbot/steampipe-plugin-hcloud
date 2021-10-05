@@ -12,7 +12,7 @@ og_image: "/images/plugins/turbot/hcloud-social-graphic.png"
 
 # Hetzner Cloud + Steampipe
 
-[Hetzner Cloud](https://hcloud.com) is a cloud hosting located in Germany.
+[Hetzner Cloud](https://www.hetzner.com/cloud) is a cloud hosting located in Germany.
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
