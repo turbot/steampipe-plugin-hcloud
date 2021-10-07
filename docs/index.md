@@ -2,7 +2,7 @@
 organization: Turbot
 category: ["public cloud"]
 icon_url: "/images/plugins/turbot/hcloud.svg"
-brand_color: "#00b050"
+brand_color: "#d50c2d"
 display_name: "Hetzner Cloud"
 short_name: "hcloud"
 description: "Steampipe plugin to query servers, networks and more from Hetzner Cloud."
