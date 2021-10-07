@@ -31,7 +31,7 @@ func tableHcloudServer(ctx context.Context) *plugin.Table {
 			{Name: "backup_window", Type: proto.ColumnType_STRING, Description: "Time window (UTC) in which the backup will run, or null if the backups are not enabled."},
 			{Name: "created", Type: proto.ColumnType_TIMESTAMP, Description: "Point in time when the Server was created."},
 			{Name: "datacenter_id", Type: proto.ColumnType_INT, Transform: transform.FromField("Datacenter.ID"), Description: "Datacenter this Server is located at."},
-			{Name: "image_id", Type: proto.ColumnType_INT, Transform: transform.FromField("Image.ID"), Description: ""},
+			{Name: "image_id", Type: proto.ColumnType_INT, Transform: transform.FromField("Image.ID"), Description: "ID of the base image for the server."},
 			{Name: "included_traffic", Type: proto.ColumnType_INT, Description: "Free Traffic for the current billing period in bytes."},
 			{Name: "ingoing_traffic", Type: proto.ColumnType_INT, Description: "Inbound Traffic for the current billing period in bytes."},
 			{Name: "iso", Type: proto.ColumnType_JSON, Transform: transform.FromField("ISO"), Description: "ISO Image that is attached to this Server. Null if no ISO is attached."},
@@ -39,7 +39,7 @@ func tableHcloudServer(ctx context.Context) *plugin.Table {
 			{Name: "load_balancers", Type: proto.ColumnType_JSON, Description: "Array of load balancer IDs."},
 			{Name: "locked", Type: proto.ColumnType_BOOL, Description: "True if Server has been locked and is not available to user."},
 			{Name: "outgoing_traffic", Type: proto.ColumnType_INT, Description: "Outbound Traffic for the current billing period in bytes."},
-			{Name: "placement_group", Type: proto.ColumnType_JSON, Description: ""},
+			{Name: "placement_group", Type: proto.ColumnType_JSON, Description: "Placement group for the server."},
 			{Name: "primary_disk_size", Type: proto.ColumnType_INT, Description: "Size of the primary Disk."},
 			{Name: "private_net", Type: proto.ColumnType_JSON, Description: "Private network information."},
 			{Name: "protection", Type: proto.ColumnType_JSON, Description: "Protection configuration for the Server."},
@@ -54,6 +54,10 @@ func tableHcloudServer(ctx context.Context) *plugin.Table {
 
 func volumeArrayToVolumeIDArray(ctx context.Context, input *transform.TransformData) (interface{}, error) {
 	var ids []int
+	// Avoid errors if the transform is run without data (shouldn't happen, but did in testing on 2021-10-06)
+	if input.Value == nil {
+		return ids, nil
+	}
 	items := input.Value.([]*hcloudgo.Volume)
 	for _, i := range items {
 		ids = append(ids, i.ID)
@@ -62,6 +66,7 @@ func volumeArrayToVolumeIDArray(ctx context.Context, input *transform.TransformD
 }
 
 func listServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+
 	conn, err := connect(ctx, d)
 	if err != nil {
 		plugin.Logger(ctx).Error("hcloud_server.listServer", "connection_error", err)
