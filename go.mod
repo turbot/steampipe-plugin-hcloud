@@ -1,6 +1,6 @@
 module github.com/turbot/steampipe-plugin-hcloud
 
-go 1.17
+go 1.18
 
 require (
 	github.com/hetznercloud/hcloud-go v1.32.0
