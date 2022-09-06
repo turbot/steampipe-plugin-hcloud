@@ -6,9 +6,9 @@ import (
 	"github.com/hetznercloud/hcloud-go/hcloud"
 	hcloudgo "github.com/hetznercloud/hcloud-go/hcloud"
 
-	"github.com/turbot/steampipe-plugin-sdk/v3/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v3/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v3/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/transform"
 )
 
 func tableHcloudAction(ctx context.Context) *plugin.Table {
