@@ -23,10 +23,8 @@ func connect(_ context.Context, d *plugin.QueryData) (*hcloudgo.Client, error) {
 
 	// Prefer config settings
 	hcloudConfig := GetConfig(d.Connection)
-	if &hcloudConfig != nil {
-		if hcloudConfig.Token != nil {
-			token = *hcloudConfig.Token
-		}
+	if hcloudConfig.Token != nil {
+		token = *hcloudConfig.Token
 	}
 
 	// Error if the minimum config is not set
