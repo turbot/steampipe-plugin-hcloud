@@ -27,5 +27,5 @@ select
 from
   hcloud_placement_group
 where
-  labels->>'env' = 'prod'
+  labels ->> 'env' = 'prod'
 ```
