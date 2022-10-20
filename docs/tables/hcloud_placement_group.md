@@ -29,3 +29,10 @@ from
 where
   labels->>'env' = 'prod'
 ```
+
+### Get the names of all servers within the given placement group
+```sql
+select hcloud_placement_group.name,servers,hcloud_server.name from hcloud_placement_group
+CROSS JOIN LATERAL JSONB_ARRAY_ELEMENTS(hcloud_placement_group.servers) AS e(srv)
+inner join hcloud_server on hcloud_server.id  = (e.srv)::text::int
+```
