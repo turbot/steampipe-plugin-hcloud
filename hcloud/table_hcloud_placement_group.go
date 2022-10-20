@@ -7,7 +7,6 @@ import (
 
 	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/transform"
 )
 
 func tableHcloudPlacementGroup(ctx context.Context) *plugin.Table {
@@ -30,7 +29,6 @@ func tableHcloudPlacementGroup(ctx context.Context) *plugin.Table {
 			{Name: "servers", Type: proto.ColumnType_JSON, Description: "Array of IDs of servers that are part of this placement group."},
 			{Name: "type", Type: proto.ColumnType_STRING, Description: "Type of placement group."},
 			{Name: "labels", Type: proto.ColumnType_JSON, Description: "User-defined labels (key-value pairs)."},
-			{Name: "raw", Type: proto.ColumnType_JSON, Transform: transform.FromValue(), Description: ""},
 		},
 	}
 }
