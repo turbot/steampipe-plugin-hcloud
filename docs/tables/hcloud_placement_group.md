@@ -27,7 +27,7 @@ select
 from
   hcloud_placement_group
 where
-  labels->>'env' = 'prod'
+  labels ->> 'env' = 'prod'
 ```
 
 ### Get the names of all servers within the given placement group
