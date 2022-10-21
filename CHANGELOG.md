@@ -1,5 +1,9 @@
-## v0.3.0 [2022-09-27]
+## v0.4.0 [2022-10-20]
 
+- New tables added
+  - [hcloud_placement_group](https://hub.steampipe.io/plugins/turbot/hcloud/tables/hcloud_placement_group) ([#13](https://github.com/turbot/steampipe-plugin-hcloud/pull/13)) (Thanks to [@hannesfant](https://github.com/hannesfant) for the new table!)
+
+## v0.3.0 [2022-09-27]
 
 _Dependencies_
 
