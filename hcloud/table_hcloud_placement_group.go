@@ -39,14 +39,17 @@ func listPlacementGroups(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		plugin.Logger(ctx).Error("hcloud_placement_group.listPlacementGroups", "connection_error", err)
 		return nil, err
 	}
+
 	items, err := conn.PlacementGroup.All(ctx)
 	if err != nil {
 		plugin.Logger(ctx).Error("hcloud_placement_group.listPlacementGroups", "query_error", err)
 		return nil, err
 	}
+
 	for _, i := range items {
 		d.StreamListItem(ctx, i)
 	}
+
 	return nil, nil
 }
 
@@ -56,8 +59,10 @@ func getPlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		plugin.Logger(ctx).Error("hcloud_placement_group.getPlacementGroup", "connection_error", err)
 		return nil, err
 	}
+
 	var item *hcloudgo.PlacementGroup
 	var resp *hcloudgo.Response
+
 	if d.KeyColumnQuals["id"] != nil {
 		id := int(d.KeyColumnQuals["id"].GetInt64Value())
 		item, resp, err = conn.PlacementGroup.GetByID(ctx, id)
@@ -65,9 +70,11 @@ func getPlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		name := d.KeyColumnQuals["name"].GetStringValue()
 		item, resp, err = conn.PlacementGroup.GetByName(ctx, name)
 	}
+
 	if err != nil {
 		plugin.Logger(ctx).Error("hcloud_network.getPlacementGroup", "query_error", err, "resp", resp)
 		return nil, err
 	}
+
 	return item, err
 }

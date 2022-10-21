@@ -4,35 +4,56 @@ List placement groups for the Hetzner Cloud account.
 
 ## Examples
 
-### List all placement groups
+### List placement groups
 
 ```sql
 select
   id,
   name,
-  type
+  type,
+  servers
 from
   hcloud_placement_group
 order by
-  id
+  id;
 ```
 
-### List all placement groups with the label env=prod
+### List placement groups with the label env=prod
 
 ```sql
 select
   id,
   name,
-  labels
+  labels,
+  servers
 from
   hcloud_placement_group
 where
-  labels ->> 'env' = 'prod'
+  labels ->> 'env' = 'prod';
 ```
 
-### Get the names of all servers within the given placement group
+### Get server details for servers in placement groups
+
 ```sql
-select hcloud_placement_group.name,servers,hcloud_server.name from hcloud_placement_group
-CROSS JOIN LATERAL JSONB_ARRAY_ELEMENTS(hcloud_placement_group.servers) AS e(srv)
-inner join hcloud_server on hcloud_server.id  = (e.srv)::text::int
+with placement_groups as (
+  select
+    p.name,
+    p.type,
+    server_id
+  from
+    hcloud_placement_group as p,
+    jsonb_array_elements(servers) as server_id
+)
+select
+  p.name as placement_group_name,
+  p.type as placement_group_type,
+  s.name as server_name,
+  s.status as server_status,
+  s.image_id as server_image_id,
+  s.id as server_id
+from
+  placement_groups as p,
+  hcloud_server as s
+where
+  s.id::text = p.server_id::text;
 ```
