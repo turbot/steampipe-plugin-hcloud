@@ -6,9 +6,9 @@ import (
 	"github.com/hetznercloud/hcloud-go/hcloud"
 	hcloudgo "github.com/hetznercloud/hcloud-go/hcloud"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
 func tableHcloudAction(ctx context.Context) *plugin.Table {
@@ -46,11 +46,11 @@ func listAction(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 
 	opts := hcloudgo.ActionListOpts{ListOpts: hcloudgo.ListOpts{Page: 1, PerPage: 50}}
-	if d.KeyColumnQuals["id"] != nil {
-		opts.ID = []int{int(d.KeyColumnQuals["id"].GetInt64Value())}
+	if d.EqualsQuals["id"] != nil {
+		opts.ID = []int{int(d.EqualsQuals["id"].GetInt64Value())}
 	}
-	if d.KeyColumnQuals["status"] != nil {
-		opts.Status = []hcloud.ActionStatus{hcloud.ActionStatus(d.KeyColumnQuals["status"].GetStringValue())}
+	if d.EqualsQuals["status"] != nil {
+		opts.Status = []hcloud.ActionStatus{hcloud.ActionStatus(d.EqualsQuals["status"].GetStringValue())}
 	}
 
 	for {
@@ -79,7 +79,7 @@ func getAction(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 	var item *hcloudgo.Action
 	var resp *hcloudgo.Response
-	id := int(d.KeyColumnQuals["id"].GetInt64Value())
+	id := int(d.EqualsQuals["id"].GetInt64Value())
 	item, resp, err = conn.Action.GetByID(ctx, id)
 	if err != nil {
 		plugin.Logger(ctx).Error("hcloud_action.getAction", "query_error", err, "resp", resp)

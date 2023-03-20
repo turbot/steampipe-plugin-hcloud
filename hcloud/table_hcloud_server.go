@@ -6,9 +6,9 @@ import (
 	"github.com/hetznercloud/hcloud-go/hcloud"
 	hcloudgo "github.com/hetznercloud/hcloud-go/hcloud"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
 func tableHcloudServer(ctx context.Context) *plugin.Table {
@@ -75,11 +75,11 @@ func listServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	opts := hcloudgo.ServerListOpts{ListOpts: hcloudgo.ListOpts{Page: 1, PerPage: 50}}
 
-	if d.KeyColumnQuals["name"] != nil {
-		opts.Name = d.KeyColumnQuals["name"].GetStringValue()
+	if d.EqualsQuals["name"] != nil {
+		opts.Name = d.EqualsQuals["name"].GetStringValue()
 	}
-	if d.KeyColumnQuals["status"] != nil {
-		opts.Status = []hcloud.ServerStatus{hcloud.ServerStatus(d.KeyColumnQuals["status"].GetStringValue())}
+	if d.EqualsQuals["status"] != nil {
+		opts.Status = []hcloud.ServerStatus{hcloud.ServerStatus(d.EqualsQuals["status"].GetStringValue())}
 	}
 
 	for {
@@ -108,11 +108,11 @@ func getServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 	var item *hcloudgo.Server
 	var resp *hcloudgo.Response
-	if d.KeyColumnQuals["id"] != nil {
-		id := int(d.KeyColumnQuals["id"].GetInt64Value())
+	if d.EqualsQuals["id"] != nil {
+		id := int(d.EqualsQuals["id"].GetInt64Value())
 		item, resp, err = conn.Server.GetByID(ctx, id)
-	} else if d.KeyColumnQuals["name"] != nil {
-		name := d.KeyColumnQuals["name"].GetStringValue()
+	} else if d.EqualsQuals["name"] != nil {
+		name := d.EqualsQuals["name"].GetStringValue()
 		item, resp, err = conn.Server.GetByName(ctx, name)
 	}
 	if err != nil {
