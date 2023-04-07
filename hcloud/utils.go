@@ -7,7 +7,7 @@ import (
 	hcloudgo "github.com/hetznercloud/hcloud-go/hcloud"
 	"github.com/pkg/errors"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func connect(_ context.Context, d *plugin.QueryData) (*hcloudgo.Client, error) {

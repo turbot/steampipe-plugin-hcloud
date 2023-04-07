@@ -5,8 +5,8 @@ import (
 
 	hcloudgo "github.com/hetznercloud/hcloud-go/hcloud"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func tableHcloudSSHKey(ctx context.Context) *plugin.Table {
@@ -42,11 +42,11 @@ func listSSHKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 
 	opts := hcloudgo.SSHKeyListOpts{ListOpts: hcloudgo.ListOpts{Page: 1, PerPage: 50}}
-	if d.KeyColumnQuals["name"] != nil {
-		opts.Name = d.KeyColumnQuals["name"].GetStringValue()
+	if d.EqualsQuals["name"] != nil {
+		opts.Name = d.EqualsQuals["name"].GetStringValue()
 	}
-	if d.KeyColumnQuals["fingerprint"] != nil {
-		opts.Fingerprint = d.KeyColumnQuals["fingerprint"].GetStringValue()
+	if d.EqualsQuals["fingerprint"] != nil {
+		opts.Fingerprint = d.EqualsQuals["fingerprint"].GetStringValue()
 	}
 
 	for {
@@ -75,7 +75,7 @@ func getSSHKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 	var item *hcloudgo.SSHKey
 	var resp *hcloudgo.Response
-	id := int(d.KeyColumnQuals["id"].GetInt64Value())
+	id := int(d.EqualsQuals["id"].GetInt64Value())
 	item, resp, err = conn.SSHKey.GetByID(ctx, id)
 	if err != nil {
 		plugin.Logger(ctx).Error("hcloud_ssh_key.getSSHKey", "query_error", err, "resp", resp)

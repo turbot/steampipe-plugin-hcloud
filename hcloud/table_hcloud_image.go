@@ -6,9 +6,9 @@ import (
 	"github.com/hetznercloud/hcloud-go/hcloud"
 	hcloudgo "github.com/hetznercloud/hcloud-go/hcloud"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
 func tableHcloudImage(ctx context.Context) *plugin.Table {
@@ -57,14 +57,14 @@ func listImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 
 	opts := hcloudgo.ImageListOpts{ListOpts: hcloudgo.ListOpts{Page: 1, PerPage: 50}, IncludeDeprecated: true}
 
-	if d.KeyColumnQuals["image_type"] != nil {
-		opts.Type = []hcloud.ImageType{hcloud.ImageType(d.KeyColumnQuals["image_type"].GetStringValue())}
+	if d.EqualsQuals["image_type"] != nil {
+		opts.Type = []hcloud.ImageType{hcloud.ImageType(d.EqualsQuals["image_type"].GetStringValue())}
 	}
-	if d.KeyColumnQuals["name"] != nil {
-		opts.Name = d.KeyColumnQuals["name"].GetStringValue()
+	if d.EqualsQuals["name"] != nil {
+		opts.Name = d.EqualsQuals["name"].GetStringValue()
 	}
-	if d.KeyColumnQuals["status"] != nil {
-		opts.Status = []hcloud.ImageStatus{hcloud.ImageStatus(d.KeyColumnQuals["status"].GetStringValue())}
+	if d.EqualsQuals["status"] != nil {
+		opts.Status = []hcloud.ImageStatus{hcloud.ImageStatus(d.EqualsQuals["status"].GetStringValue())}
 	}
 
 	for {
@@ -93,11 +93,11 @@ func getImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (
 	}
 	var item *hcloudgo.Image
 	var resp *hcloudgo.Response
-	if d.KeyColumnQuals["id"] != nil {
-		id := int(d.KeyColumnQuals["id"].GetInt64Value())
+	if d.EqualsQuals["id"] != nil {
+		id := int(d.EqualsQuals["id"].GetInt64Value())
 		item, resp, err = conn.Image.GetByID(ctx, id)
-	} else if d.KeyColumnQuals["name"] != nil {
-		name := d.KeyColumnQuals["name"].GetStringValue()
+	} else if d.EqualsQuals["name"] != nil {
+		name := d.EqualsQuals["name"].GetStringValue()
 		item, resp, err = conn.Image.GetByName(ctx, name)
 	}
 	if err != nil {
