@@ -1,3 +1,9 @@
+## v0.6.0 [2023-07-17]
+
+_Enhancements_
+
+- Updated the `docs/index.md` file to include multi-project configuration examples. ([#17](https://github.com/turbot/steampipe-plugin-hcloud/pull/17))
+
 ## v0.5.0 [2023-04-07]
 
 _Dependencies_
