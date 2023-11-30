@@ -1,10 +1,20 @@
-# Table: hcloud_action
+---
+title: "Steampipe Table: hcloud_action - Query Hetzner Cloud Actions using SQL"
+description: "Allows users to query Actions in Hetzner Cloud, specifically the status and progress of actions taken on resources, providing insights into resource management and potential issues."
+---
 
-Query actions from your Hetzner Cloud account.
+# Table: hcloud_action - Query Hetzner Cloud Actions using SQL
+
+Hetzner Cloud Actions are tasks performed on resources within the Hetzner Cloud platform. These actions include tasks such as creating, updating, or deleting resources like servers, volumes, and networks. Each action has a status and progress which can be tracked to understand the outcome of the task.
+
+## Table Usage Guide
+
+The `hcloud_action` table provides insights into actions taken within Hetzner Cloud. As a system administrator, explore action-specific details through this table, including statuses, progress, and associated metadata. Utilize it to monitor the progress and outcomes of tasks, such as resource creation, updates, and deletions, and to identify any potential issues that may arise during these processes.
 
 ## Examples
 
 ### List create_server actions
+Explore instances where server creation actions have been initiated to gain insights into system activity and manage resources effectively. This can be particularly useful for tracking resource allocation and identifying areas for optimization.
 
 ```sql
 select
@@ -16,6 +26,7 @@ where
 ```
 
 ### Get a specific action
+Analyze the settings to understand the specifics of a particular action in your Hetzner Cloud environment. This can be useful in identifying changes or actions that could impact system performance or security.
 
 ```sql
 select
@@ -27,6 +38,7 @@ where
 ```
 
 ### Actions in error
+Discover instances where actions have failed to execute correctly, allowing for the identification and resolution of potential issues within your system. This is crucial for maintaining optimal system performance and stability.
 
 ```sql
 select
@@ -38,6 +50,7 @@ where
 ```
 
 ### All actions related to a given server
+Identify instances where specific server-related actions have taken place. This can help in monitoring server activity, providing insights into system usage and behavior patterns.
 
 ```sql
 select
