@@ -16,20 +16,30 @@ The `hcloud_server_type` table provides insights into the server types within He
 ### List all server types
 Discover the different server types available in your infrastructure, which can help you understand your resource distribution and inform decisions about capacity planning or resource allocation.
 
-```sql
+```sql+postgres
 select
   name,
   description
 from
   hcloud_server_type
 order by
-  name
+  name;
+```
+
+```sql+sqlite
+select
+  name,
+  description
+from
+  hcloud_server_type
+order by
+  name;
 ```
 
 ### Get all server types with pricing
 Explore various server types alongside their pricing details to make informed decisions about cost management and resource allocation. This can help in optimizing your spending by choosing the most cost-effective server type for your needs.
 
-```sql
+```sql+postgres
 select
   st.name,
   st.description,
@@ -39,5 +49,18 @@ from
   hcloud_server_type as st,
   jsonb_array_elements(st.prices) as p
 order by
-  hourly_net
+  hourly_net;
+```
+
+```sql+sqlite
+select
+  st.name,
+  st.description,
+  cast(json_extract(p.value, '$.Hourly.Net') as float) as hourly_net,
+  cast(json_extract(p.value, '$.Monthly.Net') as float) as monthly_net
+from
+  hcloud_server_type as st,
+  json_each(st.prices) as p
+order by
+  hourly_net;
 ```

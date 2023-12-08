@@ -16,7 +16,7 @@ The `hcloud_network` table provides insights into networks within Hetzner Cloud.
 ### List all networks
 Explore all the networks available in your environment, ordered by their ID. This can assist in identifying and understanding the various networks in use, which is crucial for effective network management and security.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -24,13 +24,24 @@ select
 from
   hcloud_network
 order by
-  id
+  id;
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  description
+from
+  hcloud_network
+order by
+  id;
 ```
 
 ### List all networks with the label env=prod
 Explore which networks are labeled as 'production environment'. This is beneficial for managing and distinguishing your production systems from development or testing systems, ensuring the right resources are allocated and maintained.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -38,13 +49,24 @@ select
 from
   hcloud_network
 where
-  labels->>'env' = 'prod'
+  labels->>'env' = 'prod';
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  labels
+from
+  hcloud_network
+where
+  json_extract(labels, '$.env') = 'prod';
 ```
 
 ### List all servers in the network
 Explore which servers are part of your network. This can help you manage and monitor your network infrastructure more effectively.
 
-```sql
+```sql+postgres
 select
   n.name as network_name,
   s.name as server_name,
@@ -54,5 +76,18 @@ from
   jsonb_array_elements(n.server_ids) as sid,
   hcloud_server as s
 where
-  s.id = sid::int
+  s.id = sid::int;
+```
+
+```sql+sqlite
+select
+  n.name as network_name,
+  s.name as server_name,
+  s.server_type
+from
+  hcloud_network as n,
+  json_each(n.server_ids) as sid,
+  hcloud_server as s
+where
+  s.id = CAST(sid.value as INTEGER);
 ```

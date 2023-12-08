@@ -16,7 +16,7 @@ The `hcloud_image` table provides insights into images within Hetzner Cloud. As 
 ### List all images
 Explore all available images in your system to gain a better understanding of your resources. This can be useful for managing and organizing your digital assets.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -24,13 +24,24 @@ select
 from
   hcloud_image
 order by
-  id
+  id;
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  description
+from
+  hcloud_image
+order by
+  id;
 ```
 
 ### Find all deprecated images
 Uncover the details of outdated images within your system to better manage and update your resources for optimal performance.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -39,5 +50,17 @@ select
 from
   hcloud_image
 where
-  deprecated is not null
+  deprecated is not null;
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  description,
+  deprecated
+from
+  hcloud_image
+where
+  deprecated is not null;
 ```

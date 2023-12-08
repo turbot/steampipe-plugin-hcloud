@@ -16,23 +16,41 @@ The `hcloud_location` table provides insights into the data center locations wit
 ### List all locations
 Explore the various locations available in your Hetzner Cloud infrastructure, arranged in alphabetical order. This is particularly useful for understanding your geographical distribution and planning for data redundancy and latency optimization.
 
-```sql
+```sql+postgres
 select
   *
 from
   hcloud_location
 order by
-  name
+  name;
+```
+
+```sql+sqlite
+select
+  *
+from
+  hcloud_location
+order by
+  name;
 ```
 
 ### Get location by name
 Discover the specifics of a particular location within the Hetzner Cloud service. This query can be used to gain insights into the settings and configuration of a chosen location, which is beneficial for planning and managing resources.
 
-```sql
+```sql+postgres
 select
   *
 from
   hcloud_location
 where
-  name = 'hel1'
+  name = 'hel1';
+```
+
+```sql+sqlite
+select
+  *
+from
+  hcloud_location
+where
+  name = 'hel1';
 ```

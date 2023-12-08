@@ -16,7 +16,19 @@ The `hcloud_placement_group` table provides insights into Placement Groups withi
 ### List placement groups
 Explore the organization of your server infrastructure by identifying the groups in which your servers are placed. This can help to understand the distribution and categorization of your servers, thereby aiding in efficient resource management.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  type,
+  servers
+from
+  hcloud_placement_group
+order by
+  id;
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -31,7 +43,7 @@ order by
 ### List placement groups with the label env=prod
 Discover the segments that have been labeled as 'production environment' within your placement groups. This is useful for understanding how resources are allocated and managed within your production environment.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -43,10 +55,22 @@ where
   labels ->> 'env' = 'prod';
 ```
 
+```sql+sqlite
+select
+  id,
+  name,
+  labels,
+  servers
+from
+  hcloud_placement_group
+where
+  json_extract(labels, '$.env') = 'prod';
+```
+
 ### Get server details for servers in placement groups
 This query is useful for identifying the status and other details of servers located within specific placement groups. This can help in managing and monitoring server performance and resource allocation more effectively.
 
-```sql
+```sql+postgres
 with placement_groups as (
   select
     p.name,
@@ -68,4 +92,28 @@ from
   hcloud_server as s
 where
   s.id::text = p.server_id::text;
+```
+
+```sql+sqlite
+with placement_groups as (
+  select
+    p.name,
+    p.type,
+    json_extract(server_id.value, ') as server_id
+  from
+    hcloud_placement_group as p,
+    json_each(servers) as server_id
+)
+select
+  p.name as placement_group_name,
+  p.type as placement_group_type,
+  s.name as server_name,
+  s.status as server_status,
+  s.image_id as server_image_id,
+  s.id as server_id
+from
+  placement_groups as p,
+  hcloud_server as s
+where
+  s.id = p.server_id;
 ```

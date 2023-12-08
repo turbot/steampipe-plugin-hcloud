@@ -16,7 +16,7 @@ The `hcloud_volume` table provides insights into Volumes within Hetzner Cloud. A
 ### List all volumes
 Explore all the storage volumes in your infrastructure, ordered by their names, to gain insights into their creation timeline and manage resources effectively. This can be useful in assessing the utilization of storage resources and planning for future capacity needs.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -24,13 +24,24 @@ select
 from
   hcloud_volume
 order by
-  name
+  name;
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  created
+from
+  hcloud_volume
+order by
+  name;
 ```
 
 ### List volumes with location data
 Explore which volumes are associated with specific locations in your Hetzner Cloud environment. This can be useful in managing resources and understanding data distribution across different geographical areas.
 
-```sql
+```sql+postgres
 select
   v.name as volume_name,
   l.name as location_name
@@ -38,13 +49,24 @@ from
   hcloud_volume as v,
   hcloud_location as l
 where
-  v.location_id = l.id
+  v.location_id = l.id;
+```
+
+```sql+sqlite
+select
+  v.name as volume_name,
+  l.name as location_name
+from
+  hcloud_volume as v,
+  hcloud_location as l
+where
+  v.location_id = l.id;
 ```
 
 ### Largest volumes
 Discover the top five largest storage volumes in your cloud environment to better manage resource allocation and utilization. This can help in identifying potential areas for cost savings or performance improvements.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -53,5 +75,17 @@ from
   hcloud_volume
 order by
   size desc
-limit 5
+limit 5;
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  size
+from
+  hcloud_volume
+order by
+  size desc
+limit 5;
 ```

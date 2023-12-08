@@ -16,17 +16,24 @@ The `hcloud_ssh_key` table provides insights into SSH keys within Hetzner Cloud.
 ### List all SSH keys
 Explore all SSH keys within your system to gain a comprehensive overview of your security mechanisms. This can be particularly useful when auditing system security or troubleshooting access issues.
 
-```sql
+```sql+postgres
 select
   *
 from
-  hcloud_ssh_key
+  hcloud_ssh_key;
+```
+
+```sql+sqlite
+select
+  *
+from
+  hcloud_ssh_key;
 ```
 
 ### Oldest SSH keys
 Explore which SSH keys have been in use the longest to assess potential security vulnerabilities and update protocols as necessary.
 
-```sql
+```sql+postgres
 select
   name,
   fingerprint,
@@ -35,5 +42,17 @@ from
   hcloud_ssh_key
 order by
   created
-limit 5
+limit 5;
+```
+
+```sql+sqlite
+select
+  name,
+  fingerprint,
+  created
+from
+  hcloud_ssh_key
+order by
+  created
+limit 5;
 ```
