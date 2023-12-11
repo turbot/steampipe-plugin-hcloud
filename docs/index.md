@@ -8,6 +8,7 @@ short_name: "hcloud"
 description: "Steampipe plugin to query servers, networks and more from Hetzner Cloud."
 og_description: "Query Hetzner Cloud with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/hcloud-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # Hetzner Cloud + Steampipe
