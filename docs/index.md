@@ -8,13 +8,14 @@ short_name: "hcloud"
 description: "Steampipe plugin to query servers, networks and more from Hetzner Cloud."
 og_description: "Query Hetzner Cloud with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/hcloud-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # Hetzner Cloud + Steampipe
 
 [Hetzner Cloud](https://www.hetzner.com/cloud) is a cloud hosting located in Germany.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 List servers in your Hetzner Cloud account:
 
@@ -121,7 +122,4 @@ connection "hcloud_all" {
 }
 ```
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-hcloud
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
