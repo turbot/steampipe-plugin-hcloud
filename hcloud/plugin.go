@@ -28,6 +28,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"hcloud_server_type":     tableHcloudServerType(ctx),
 			"hcloud_ssh_key":         tableHcloudSSHKey(ctx),
 			"hcloud_volume":          tableHcloudVolume(ctx),
+			"hcloud_firewall":        tableHcloudFirewall(ctx),
 		},
 	}
 	return p
