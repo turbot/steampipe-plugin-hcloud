@@ -18,7 +18,7 @@ func tableHcloudFirewall(ctx context.Context) *plugin.Table {
 			Hydrate:    listFirewall,
 		},
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.AnyColumn([]string{"name"}),
+			KeyColumns: plugin.AnyColumn([]string{"id"}),
 			Hydrate:    getFirewall,
 		},
 		Columns: []*plugin.Column{
@@ -31,7 +31,6 @@ func tableHcloudFirewall(ctx context.Context) *plugin.Table {
 		},
 	}
 }
-
 
 func listFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
@@ -70,15 +69,17 @@ func getFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		plugin.Logger(ctx).Error("hcloud_firewall.getFirewall", "connection_error", err)
 		return nil, err
 	}
-	var item *hcloudgo.Firewall
-	var resp *hcloudgo.Response
-	if d.EqualsQuals["name"] != nil {
-		name := d.EqualsQuals["name"].GetStringValue()
-		item, resp, err = conn.Firewall.GetByName(ctx, name)
+
+	id := int(d.EqualsQuals["id"].GetInt64Value())
+	if id == 0 {
+		return nil, nil
 	}
+
+	item, resp, err := conn.Firewall.GetByID(ctx, id)
 	if err != nil {
 		plugin.Logger(ctx).Error("hcloud_firewall.getFirewall", "query_error", err, "resp", resp)
 		return nil, err
 	}
-	return item, err
+
+	return item, nil
 }
