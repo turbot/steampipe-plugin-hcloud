@@ -18,7 +18,7 @@ func tableHcloudFirewall(ctx context.Context) *plugin.Table {
 			Hydrate:    listFirewall,
 		},
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.AnyColumn([]string{"id"}),
+			KeyColumns: plugin.SingleColumn("id"),
 			Hydrate:    getFirewall,
 		},
 		Columns: []*plugin.Column{
