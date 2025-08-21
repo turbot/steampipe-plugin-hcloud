@@ -12,7 +12,7 @@ import (
 func tableHcloudFirewall(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "hcloud_firewall",
-		Description: "Firewall rules in Hetzner Cloud.",
+		Description: "Firewall resources in Hetzner Cloud.",
 		List: &plugin.ListConfig{
 			KeyColumns: plugin.OptionalColumns([]string{"name"}),
 			Hydrate:    listFirewall,
