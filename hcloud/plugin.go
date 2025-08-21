@@ -20,6 +20,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		TableMap: map[string]*plugin.Table{
 			"hcloud_action":          tableHcloudAction(ctx),
 			"hcloud_datacenter":      tableHcloudDataCenter(ctx),
+			"hcloud_firewall":        tableHcloudFirewall(ctx),
 			"hcloud_image":           tableHcloudImage(ctx),
 			"hcloud_location":        tableHcloudLocation(ctx),
 			"hcloud_network":         tableHcloudNetwork(ctx),
