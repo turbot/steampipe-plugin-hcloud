@@ -28,7 +28,7 @@ func tableHcloudImage(ctx context.Context) *plugin.Table {
 			{Name: "id", Type: proto.ColumnType_INT, Description: "ID of the Image."},
 			{Name: "name", Type: proto.ColumnType_STRING, Description: "Unique identifier of the Image. This value is only set for system Images."},
 			// Other columns
-			{Name: "bound_to", Type: proto.ColumnType_INT, Description: "ID of Server the Image is bound to. Only set for Images of type backup."},
+			{Name: "bound_to", Type: proto.ColumnType_INT, Transform: transform.FromField("BoundTo.ID").NullIfEqual(0), Description: "ID of Server the Image is bound to. Only set for Images of type backup."},
 			{Name: "build_id", Type: proto.ColumnType_STRING, Description: "Build ID of the Image."},
 			{Name: "created", Type: proto.ColumnType_TIMESTAMP, Description: "Point in time when the Image was created."},
 			{Name: "created_from", Type: proto.ColumnType_JSON, Description: "Information about the Server the Image was created from."},
