@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	github.com/hetznercloud/hcloud-go v1.32.0
 	github.com/pkg/errors v0.9.1
-	github.com/turbot/steampipe-plugin-sdk/v5 v5.14.0
+	github.com/turbot/steampipe-plugin-sdk/v5 v5.14.1
 )
 
 require (
