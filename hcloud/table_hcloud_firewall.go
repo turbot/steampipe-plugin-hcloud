@@ -5,8 +5,8 @@ import (
 
 	hcloudgo "github.com/hetznercloud/hcloud-go/hcloud"
 
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 )
 
 func tableHcloudFirewall(ctx context.Context) *plugin.Table {
@@ -54,7 +54,7 @@ func listFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		for _, i := range items {
 			d.StreamListItem(ctx, i)
 		}
-		opts.ListOpts.Page++
+		opts.Page++
 		if resp.Meta.Pagination.Page >= resp.Meta.Pagination.LastPage {
 			break
 		}
