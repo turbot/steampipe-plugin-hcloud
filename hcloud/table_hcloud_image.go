@@ -3,12 +3,11 @@ package hcloud
 import (
 	"context"
 
-	"github.com/hetznercloud/hcloud-go/hcloud"
 	hcloudgo "github.com/hetznercloud/hcloud-go/hcloud"
 
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v6/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin/transform"
 )
 
 func tableHcloudImage(ctx context.Context) *plugin.Table {
@@ -58,13 +57,13 @@ func listImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	opts := hcloudgo.ImageListOpts{ListOpts: hcloudgo.ListOpts{Page: 1, PerPage: 50}, IncludeDeprecated: true}
 
 	if d.EqualsQuals["image_type"] != nil {
-		opts.Type = []hcloud.ImageType{hcloud.ImageType(d.EqualsQuals["image_type"].GetStringValue())}
+		opts.Type = []hcloudgo.ImageType{hcloudgo.ImageType(d.EqualsQuals["image_type"].GetStringValue())}
 	}
 	if d.EqualsQuals["name"] != nil {
 		opts.Name = d.EqualsQuals["name"].GetStringValue()
 	}
 	if d.EqualsQuals["status"] != nil {
-		opts.Status = []hcloud.ImageStatus{hcloud.ImageStatus(d.EqualsQuals["status"].GetStringValue())}
+		opts.Status = []hcloudgo.ImageStatus{hcloudgo.ImageStatus(d.EqualsQuals["status"].GetStringValue())}
 	}
 
 	for {
@@ -76,7 +75,7 @@ func listImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		for _, i := range items {
 			d.StreamListItem(ctx, i)
 		}
-		opts.ListOpts.Page++
+		opts.Page++
 		if resp.Meta.Pagination.Page >= resp.Meta.Pagination.LastPage {
 			break
 		}

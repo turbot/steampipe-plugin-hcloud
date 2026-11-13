@@ -5,8 +5,8 @@ import (
 
 	hcloudgo "github.com/hetznercloud/hcloud-go/hcloud"
 
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 )
 
 func tableHcloudSSHKey(ctx context.Context) *plugin.Table {
@@ -58,7 +58,7 @@ func listSSHKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		for _, i := range items {
 			d.StreamListItem(ctx, i)
 		}
-		opts.ListOpts.Page++
+		opts.Page++
 		if resp.Meta.Pagination.Page >= resp.Meta.Pagination.LastPage {
 			break
 		}

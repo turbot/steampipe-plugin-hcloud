@@ -3,12 +3,11 @@ package hcloud
 import (
 	"context"
 
-	"github.com/hetznercloud/hcloud-go/hcloud"
 	hcloudgo "github.com/hetznercloud/hcloud-go/hcloud"
 
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v6/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin/transform"
 )
 
 func tableHcloudServer(ctx context.Context) *plugin.Table {
@@ -79,7 +78,7 @@ func listServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		opts.Name = d.EqualsQuals["name"].GetStringValue()
 	}
 	if d.EqualsQuals["status"] != nil {
-		opts.Status = []hcloud.ServerStatus{hcloud.ServerStatus(d.EqualsQuals["status"].GetStringValue())}
+		opts.Status = []hcloudgo.ServerStatus{hcloudgo.ServerStatus(d.EqualsQuals["status"].GetStringValue())}
 	}
 
 	for {
@@ -91,7 +90,7 @@ func listServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		for _, i := range items {
 			d.StreamListItem(ctx, i)
 		}
-		opts.ListOpts.Page++
+		opts.Page++
 		if resp.Meta.Pagination.Page >= resp.Meta.Pagination.LastPage {
 			break
 		}
